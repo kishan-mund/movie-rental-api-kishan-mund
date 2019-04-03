@@ -1,6 +1,14 @@
-var express = require('express');
-var router = express.Router();
-const movies = require('../models/moviemodel');
+const express = require('express');
+const router = express.Router();
+const movies = require('../models/moviesModel');
+const bodyParser = require("body-parser");
+const app = express();
+
+
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({
+//     extended: true
+// }));
 
 router.get('/api/movies', (req, res) => {
     movies
@@ -11,7 +19,7 @@ router.get('/api/movies', (req, res) => {
 });
 
 router.post('/api/movies', (req, res) => {
-
+    console.log(req.body);
     movies
         .create(req.body)
         .then((elem) => {
@@ -35,7 +43,6 @@ router.put('/api/movies/:movieId', (req, res) => {
             new: true
         })
         .then(data => {
-
             res.send(data)
         })
         .catch(err => res.status(400).send('data not updated'));
@@ -48,7 +55,7 @@ router.delete('/api/movies/:movieId', (req, res) => {
 
             res.send(data)
         })
-        .catch(err => res.status(400).send('data not delete'));
+        .catch(err => res.status(400).send('Bad request'));
 });
 
 module.exports = router;
